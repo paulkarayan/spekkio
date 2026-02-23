@@ -36,7 +36,13 @@ If `.specify/memory/constitution.md` exists, read it for project conventions.
 
 ## Execution Flow
 
-Execute the following 6 phases in order. After each phase, print a progress summary to stdout before continuing. Write all outputs under `specs/000-extraction/`.
+Execute the following 6 phases in order. After each phase, print a progress summary to stdout before continuing.
+
+**Output directory naming:** `specs/{NNN}-{app-name}/` where:
+- `{NNN}` is a zero-padded 3-digit counter based on the number of existing directories in `specs/` (first run = `001`, second = `002`, etc.). Count all existing directories, not just extraction ones.
+- `{app-name}` is the name of the target directory being extracted (e.g., `atm` if extracting `examples/atm/`). If extracting from the project root, use the project directory name.
+
+Determine the output directory before starting Phase 0 and use it for all outputs.
 
 ---
 
@@ -59,7 +65,7 @@ Scan the project to understand its shape.
    - Scheduled jobs / cron
    - WebSocket handlers
 
-**Output:** Write `specs/000-extraction/discovery.md` with:
+**Output:** Write `specs/{NNN}-{app-name}/discovery.md` with:
 - Language/framework detected
 - Entry points
 - Project structure map (layer breakdown)
@@ -119,7 +125,7 @@ observations:
 
 **For non-HTTP interfaces** (CLI commands, event handlers, cron jobs), adapt the format to capture: trigger, inputs, outputs, side effects, observations.
 
-**Output:** Write `specs/000-extraction/inventory.yml` with all behavioral records.
+**Output:** Write `specs/{NNN}-{app-name}/inventory.yml` with all behavioral records.
 
 **Stdout:** Print count of interfaces inventoried and observations noted.
 
@@ -160,7 +166,7 @@ Group related behaviors from the inventory into user stories.
 - **Low**: Behavior guessed from naming, comments, or conventions
 - **Unknown**: Cannot determine — mark with `[NEEDS REVIEW]`
 
-**Output:** Write `specs/000-extraction/spec.md`
+**Output:** Write `specs/{NNN}-{app-name}/spec.md`
 
 **Stdout:** Print count of user stories, acceptance criteria, and anomalies.
 
@@ -193,8 +199,8 @@ For each acceptance criterion from Phase 2, generate a Gherkin scenario that des
 - For anomalies, add inline comments explaining what's unusual and what question the reviewer should answer
 - Group scenarios into `.feature` files by functional area (one feature file per logical grouping)
 
-**Output:** Write feature files to `specs/000-extraction/features/characterization/`
-Also create `specs/000-extraction/features/intended/.gitkeep` (empty — filled after human review)
+**Output:** Write feature files to `specs/{NNN}-{app-name}/features/characterization/`
+Also create `specs/{NNN}-{app-name}/features/intended/.gitkeep` (empty — filled after human review)
 
 **Stdout:** Print count of scenarios generated, broken down by confidence level.
 
@@ -224,7 +230,7 @@ Create bidirectional traceability between scenarios and source code.
 |------|----------|-------|--------|
 | {file} | {function name} | {lines} | {why no scenario: dead code, internal helper, etc.} |
 
-**Output:** Write `specs/000-extraction/source-mapping.md`
+**Output:** Write `specs/{NNN}-{app-name}/source-mapping.md`
 
 **Stdout:** Print coverage summary and count of uncovered functions.
 
@@ -298,7 +304,7 @@ Questions that could not be answered from code alone:
 Reviewer: _______________ Date: _______________
 ```
 
-**Output:** Write `specs/000-extraction/checklists/extraction-review.md`
+**Output:** Write `specs/{NNN}-{app-name}/checklists/extraction-review.md`
 
 **Stdout:** Print summary of review items.
 
@@ -309,7 +315,7 @@ Reviewer: _______________ Date: _______________
 After all phases complete, confirm this structure exists:
 
 ```
-specs/000-extraction/
+specs/{NNN}-{app-name}/
 ├── discovery.md                          # Phase 0: Project structure analysis
 ├── inventory.yml                         # Phase 1: Raw behavioral inventory
 ├── spec.md                               # Phase 2: Inferred specification
@@ -342,7 +348,7 @@ After extraction is complete, print these next steps:
 
 ```
 Next steps:
-1. Review specs/000-extraction/checklists/extraction-review.md
+1. Review specs/{NNN}-{app-name}/checklists/extraction-review.md
 2. Resolve all anomalies and confirm user stories
 3. Move approved scenarios from characterization/ to intended/
 4. Modify scenarios that encode bugs (fix expected behavior)
