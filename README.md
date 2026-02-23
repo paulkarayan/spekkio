@@ -39,3 +39,40 @@ Adjust spec (remove bugs-as-features, add missing intent)
 Normal Spec Kit flow from here
 ```
 
+## how to run it
+
+Spekkio is a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) project command. Run it from any project directory:
+
+```
+/spekkio.extract path/to/your/app
+```
+
+It reads your source code and produces a full behavioral extraction in 6 phases:
+
+| Phase | Output | What it does |
+|-------|--------|-------------|
+| 0 | `discovery.md` | Detects language/framework, maps project structure, catalogs endpoints |
+| 1 | `inventory.yml` | Structured behavioral record for every external interface |
+| 2 | `spec.md` | Inferred user stories with acceptance criteria and confidence scores |
+| 3 | `features/characterization/*.feature` | Gherkin scenarios describing current behavior (not intended behavior) |
+| 4 | `source-mapping.md` | Bidirectional traceability between scenarios and source code |
+| 5 | `checklists/extraction-review.md` | Human review checklist: anomalies, missing context, dead code |
+
+Output lands in `specs/{NNN}-{app-name}/` where the number auto-increments per run.
+
+Spekkio surfaces the kinds of anomalies that vibe-coded apps tend to accumulate: missing validations, security gaps, dead code, inconsistent error handling, no test coverage. Every anomaly gets a decision checkbox in the review checklist.
+
+### after extraction
+
+1. Review `checklists/extraction-review.md` -- confirm, revise, or remove each user story
+2. Resolve anomalies -- decide what's intentional vs. what's a bug
+3. Move approved scenarios from `characterization/` to `intended/`
+4. Evolve from a known state using the spec as your source of truth
+
+## end to end example
+
+The `examples/atm/` directory contains a small FastAPI ATM app with intentional anomalies (no withdrawal limits, plain-text PINs, no rate limiting on auth). Try it:
+
+```
+/spekkio.extract examples/atm
+```
