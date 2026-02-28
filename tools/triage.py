@@ -405,9 +405,9 @@ class MarkdownToHtml:
         # Build context breadcrumb (hidden by default, shown when filtering)
         ctx_parts = []
         if ctx_heading:
-            ctx_parts.append(f'<a href="#{self._escape(ctx_slug)}" class="text-blue-600 hover:underline">{self._escape(ctx_heading)}</a>')
+            ctx_parts.append(f'<span data-target="#{self._escape(ctx_slug)}" class="ctx-link text-blue-600 hover:underline cursor-pointer">{self._escape(ctx_heading)}</span>')
         if ctx_sub:
-            ctx_parts.append(f'<a href="#{self._escape(ctx_sub_slug)}" class="text-blue-600 hover:underline">{self._escape(ctx_sub)}</a>')
+            ctx_parts.append(f'<span data-target="#{self._escape(ctx_sub_slug)}" class="ctx-link text-blue-600 hover:underline cursor-pointer">{self._escape(ctx_sub)}</span>')
         ctx_html = ""
         if ctx_parts:
             breadcrumb = ' <span class="text-gray-400">›</span> '.join(ctx_parts)
@@ -719,10 +719,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
       // Context breadcrumb links: switch to All, then scroll to anchor
       document.addEventListener('click', (e) => {{
-        const link = e.target.closest('.tag-context a');
+        const link = e.target.closest('.ctx-link');
         if (!link) return;
-        e.preventDefault();
-        const hash = link.getAttribute('href');
+        const hash = link.dataset.target;
         // Switch to All
         activeFilter = 'all';
         buttons.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-gray-400'));
