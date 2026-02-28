@@ -1,0 +1,365 @@
+# Behavioral Inventory
+# Project: ATM API
+# Extracted: 2026-02-28
+# Source: examples/atm/
+
+---
+
+# ============================================================
+# Endpoint 1: Health Check
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /health
+    source: main.py:13-15
+    handler_function: health_check
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: '{"status": "ok"}'
+    errors: []
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-001 source=main.py:13-15]
+      Health check does not verify database connectivity.
+      Question: Should the health endpoint confirm the DB is reachable?
+      Recommendation: Add a DB ping to the health check.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 2: Create Account
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /accounts/
+    source: routes/accounts.py:25-38
+    handler_function: create_account
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: account_number
+        type: str
+        validation: "Pydantic required field; uniqueness checked against DB"
+        constraints: "No format validation (length, pattern, etc.)"
+      - name: holder_name
+        type: str
+        validation: "Pydantic required field"
+        constraints: "No length or character validation"
+      - name: pin
+        type: str
+        validation: "Pydantic required field"
+        constraints: "No length, format, or complexity validation"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"id": int, "account_number": str, "holder_name": str, "balance": float}'
+    errors:
+      - status: 400
+        condition: "Account number already exists in database"
+      - status: 422
+        condition: "Request body validation failure (missing/invalid fields)"
+
+  side_effects:
+    - "Creates new Account row in accounts table with balance=0.0"
+    - "PIN stored as plain text in database (no hashing)"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-002 source=routes/accounts.py:33]
+      PIN is stored as plain text in the database.
+      Question: Is this intentional for a demo, or a security bug?
+      Recommendation: Hash PINs with bcrypt or argon2.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-003 source=routes/accounts.py:12-15]
+      No validation on account_number format — could be empty string, special characters, any length.
+      Question: Should account numbers follow a specific format (e.g., numeric, fixed length)?
+      Recommendation: Add regex or length validation.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-004 source=routes/accounts.py:12-15]
+      No validation on PIN complexity or length — could be empty string or single character.
+      Question: Should PINs be required to be exactly 4 digits?
+      Recommendation: Add PIN format constraint.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-005 source=routes/accounts.py:12-15]
+      No validation on holder_name — empty strings accepted.
+      Question: Should holder names have a minimum length?
+      Recommendation: Add minimum length validation.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 3: Get Balance
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /accounts/balance
+    source: routes/accounts.py:41-43
+    handler_function: get_balance
+
+  authentication:
+    required: true
+    method: "PIN via headers (x-account-number, x-pin) using verify_pin dependency"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: '{"account_number": str, "balance": float}'
+    errors:
+      - status: 401
+        condition: "Account not found or PIN mismatch"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-006 source=auth.py:8-17]
+      No rate limiting on authentication attempts — unlimited failed PIN tries allowed.
+      Question: Is brute-force protection needed?
+      Recommendation: Add rate limiting or account lockout after N failed attempts.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 4: Get Transaction History
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /accounts/history
+    source: routes/accounts.py:46-63
+    handler_function: get_history
+
+  authentication:
+    required: true
+    method: "PIN via headers (x-account-number, x-pin) using verify_pin dependency"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: '[{"id": int, "type": str, "amount": float, "timestamp": str (ISO 8601), "description": str|null}]'
+    errors:
+      - status: 401
+        condition: "Account not found or PIN mismatch"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-007 source=routes/accounts.py:46-63]
+      No pagination support — returns all transactions without limit/offset.
+      Question: Will this cause performance issues for accounts with many transactions?
+      Recommendation: Add limit/offset or cursor-based pagination.
+      [/ANOMALY]
+    - "Transactions ordered by timestamp descending (newest first)"
+
+# ============================================================
+# Endpoint 5: Deposit
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /transactions/deposit
+    source: routes/transactions.py:25-38
+    handler_function: deposit
+
+  authentication:
+    required: true
+    method: "PIN via headers (x-account-number, x-pin) using verify_pin dependency"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: amount
+        type: float
+        validation: "Must be > 0"
+        constraints: "No upper limit on deposit amount"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"message": "Deposit successful", "new_balance": float}'
+    errors:
+      - status: 400
+        condition: "Amount is zero or negative"
+      - status: 401
+        condition: "Authentication failure"
+      - status: 422
+        condition: "Request body validation failure"
+
+  side_effects:
+    - "Increments account.balance by request.amount"
+    - "Creates Transaction row with type=DEPOSIT"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-008 source=routes/transactions.py:25-38]
+      No maximum deposit limit — arbitrarily large amounts can be deposited.
+      Question: Should there be a per-transaction or daily deposit cap?
+      Recommendation: Add configurable deposit limits.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-009 source=models.py:22]
+      Float used for monetary amounts — potential floating-point precision issues.
+      Question: Could rounding cause balance discrepancies?
+      Recommendation: Use Decimal or integer cents for monetary values.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 6: Withdraw
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /transactions/withdraw
+    source: routes/transactions.py:41-57
+    handler_function: withdraw
+
+  authentication:
+    required: true
+    method: "PIN via headers (x-account-number, x-pin) using verify_pin dependency"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: amount
+        type: float
+        validation: "Must be > 0; must not exceed current balance"
+        constraints: "No daily/per-transaction withdrawal limit"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"message": "Withdrawal successful", "new_balance": float}'
+    errors:
+      - status: 400
+        condition: "Amount is zero or negative"
+      - status: 400
+        condition: "Insufficient funds (balance < amount)"
+      - status: 401
+        condition: "Authentication failure"
+      - status: 422
+        condition: "Request body validation failure"
+
+  side_effects:
+    - "Decrements account.balance by request.amount"
+    - "Creates Transaction row with type=WITHDRAWAL"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-010 source=routes/transactions.py:45]
+      No withdrawal limit per transaction or per day — can withdraw any amount up to full balance.
+      Question: Should ATM-style withdrawal limits exist?
+      Recommendation: Add configurable withdrawal limits.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-011 source=routes/transactions.py:46-48]
+      No concurrency control on balance check and update — race condition possible.
+      Question: Could concurrent withdrawals cause overdraft?
+      Recommendation: Add optimistic locking or SELECT FOR UPDATE.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 7: Transfer
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /transactions/transfer
+    source: routes/transactions.py:60-93
+    handler_function: transfer
+
+  authentication:
+    required: true
+    method: "PIN via headers (x-account-number, x-pin) using verify_pin dependency"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: target_account_number
+        type: str
+        validation: "Must exist in database; must not be same as source account"
+        constraints: "No format validation"
+      - name: amount
+        type: float
+        validation: "Must be > 0; must not exceed source account balance"
+        constraints: "No transfer limit"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"message": "Transfer successful", "new_balance": float}'
+    errors:
+      - status: 400
+        condition: "Amount is zero or negative"
+      - status: 400
+        condition: "Insufficient funds (balance < amount)"
+      - status: 400
+        condition: "Target account is same as source account"
+      - status: 404
+        condition: "Target account not found"
+      - status: 401
+        condition: "Authentication failure"
+      - status: 422
+        condition: "Request body validation failure"
+
+  side_effects:
+    - "Decrements source account.balance by amount"
+    - "Increments target account.balance by amount"
+    - "Creates two Transaction rows: one for sender (TRANSFER), one for receiver (TRANSFER)"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-012 source=routes/transactions.py:60-93]
+      No transfer limit per transaction or per day.
+      Question: Should transfer limits exist?
+      Recommendation: Add configurable transfer limits.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-013 source=routes/transactions.py:65-69]
+      Balance check occurs before target account lookup — error priority may confuse users.
+      Question: Is this error ordering intentional?
+      Recommendation: Check target account first for better UX.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-014 source=routes/transactions.py:73-74]
+      No concurrency control on dual balance update — race condition on concurrent transfers.
+      Question: Could concurrent transfers cause inconsistent balances?
+      Recommendation: Add database-level locking.
+      [/ANOMALY]

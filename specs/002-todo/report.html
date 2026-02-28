@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spekkio Report — 002-todo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tag-block { transition: opacity 0.2s; }
+    .dimmed { opacity: 0.15; pointer-events: none; }
+    body { font-family: ui-sans-serif, system-ui, sans-serif; }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+  <!-- Sticky header -->
+  <header class="sticky top-0 z-50 bg-white shadow-sm border-b">
+    <div class="max-w-5xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-lg font-bold">Spekkio Report</h1>
+        <p class="text-xs text-gray-500">/Users/pk/side/spekkio/specs/002-todo &middot; 2026-02-28T19:06:44Z</p>
+      </div>
+      <div class="flex gap-2" id="filters">
+        <button data-filter="all"
+                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-gray-800 text-white">
+          All (52)
+        </button>
+        <button data-filter="HUMAN_INPUT"
+                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-amber-100 text-amber-800 border border-amber-300">
+          Human Input (12)
+        </button>
+        <button data-filter="ANOMALY"
+                class="filter-btn px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800 border border-red-300">
+          Anomalies (40)
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Summary -->
+  <main class="max-w-5xl mx-auto px-6 py-6">
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="bg-white rounded-lg shadow p-4 text-center">
+        <div class="text-3xl font-bold">52</div>
+        <div class="text-sm text-gray-500">Total Items</div>
+      </div>
+      <div class="bg-amber-50 rounded-lg shadow p-4 text-center border-t-4 border-amber-500">
+        <div class="text-3xl font-bold text-amber-700">12</div>
+        <div class="text-sm text-amber-600">Human Input</div>
+      </div>
+      <div class="bg-red-50 rounded-lg shadow p-4 text-center border-t-4 border-red-500">
+        <div class="text-3xl font-bold text-red-700">40</div>
+        <div class="text-sm text-red-600">Anomalies</div>
+      </div>
+    </div>
+
+    <!-- Rendered spec content -->
+    <section class="my-6"><h2 class="text-xl font-bold border-b pb-2 mb-4">spec.md</h2><h1 id="inferred-specification" class="mt-4 mb-2 text-sm font-semibold"><a href="#inferred-specification" class="hover:text-blue-600">Inferred Specification</a></h1>
+<p class="my-2"><strong>Project</strong>: Todo API <strong>Extracted</strong>: 2026-02-28 <strong>Status</strong>: Draft -- requires human review</p>
+<hr>
+<h2 id="us-001-health-check-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-001-health-check-inferred" class="hover:text-blue-600">US-001: Health Check (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">GET /health</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:15-16</code></p>
+<p class="my-2"><strong>As a</strong> system operator <strong>I want to</strong> check if the Todo API is running</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-001"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-001-health-check-inferred" class="text-blue-600 hover:underline">US-001: Health Check (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-001</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:15-16</code></div><div class="text-sm">Why does the user need this capability? Monitoring? Load balancer probe?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-001-01</td><td class="border border-gray-300 px-3 py-2 text-sm">GET /health returns 200 with <code class="bg-gray-200 px-1 rounded text-sm">{"status": "ok"}</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:15-16</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<p class="my-2">None for this story.</p>
+<hr>
+<h2 id="us-002-user-registration-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-002-user-registration-inferred" class="hover:text-blue-600">US-002: User Registration (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">POST /users</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:21-33</code></p>
+<p class="my-2"><strong>As a</strong> new user <strong>I want to</strong> create an account with my name, email, and password</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-002"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-002-user-registration-inferred" class="text-blue-600 hover:underline">US-002: User Registration (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-002</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:21-33</code></div><div class="text-sm">Why does the user need to register? What capabilities does registration unlock?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-002-01</td><td class="border border-gray-300 px-3 py-2 text-sm">User is created with name, email, and password; returns 201</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:24-32</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-002-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Response includes id, name, email but NOT password</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:32</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-002-03</td><td class="border border-gray-300 px-3 py-2 text-sm">Password stored as plain text (no hashing)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:28</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-002-04</td><td class="border border-gray-300 px-3 py-2 text-sm">Duplicate emails are allowed (no uniqueness check)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:23</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-002-05</td><td class="border border-gray-300 px-3 py-2 text-sm">Missing required fields cause 500 error (unhandled KeyError)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:25-28</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-016"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-002-user-registration-inferred" class="text-blue-600 hover:underline">US-002: User Registration (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-016</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:28</code></div><div class="text-sm">Password stored as plain text — no hashing applied.<br>Question: Is this intentional for a prototype?<br>Recommendation: Hash passwords with bcrypt or argon2.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-017"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-002-user-registration-inferred" class="text-blue-600 hover:underline">US-002: User Registration (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-017</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:23</code></div><div class="text-sm">No duplicate email check — multiple accounts with same email allowed.<br>Question: Should emails be unique per user?<br>Recommendation: Add unique constraint and pre-insert check.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-018"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-002-user-registration-inferred" class="text-blue-600 hover:underline">US-002: User Registration (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-018</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:25-28</code></div><div class="text-sm">Missing required fields cause unhandled KeyError resulting in 500 error.<br>Question: Should missing fields return 400 with descriptive error?<br>Recommendation: Add input validation and proper error handling.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-019"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-002-user-registration-inferred" class="text-blue-600 hover:underline">US-002: User Registration (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-019</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:7</code></div><div class="text-sm">SECRET_KEY hardcoded in source code: "super-secret-key-123".<br>Question: Should this come from an environment variable?<br>Recommendation: Move to env var or config file, never commit secrets.</div></div>
+<hr>
+<h2 id="us-003-user-login-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-003-user-login-inferred" class="hover:text-blue-600">US-003: User Login (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">POST /login</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:36-43</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> log in with my email and password</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-003"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-003-user-login-inferred" class="text-blue-600 hover:underline">US-003: User Login (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-003</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:36-43</code></div><div class="text-sm">Why does the user need to log in? What does the returned token enable?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-003-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Successful login returns 200 with <code class="bg-gray-200 px-1 rounded text-sm">{"token": user_id}</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:42</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-003-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Wrong email or password returns 401</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:40-41</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-003-03</td><td class="border border-gray-300 px-3 py-2 text-sm">"Token" is actually the user's integer ID, not a real token</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:42</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-003-04</td><td class="border border-gray-300 px-3 py-2 text-sm">Password compared as plain text equality</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:40</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-020"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-003-user-login-inferred" class="text-blue-600 hover:underline">US-003: User Login (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-020</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:42</code></div><div class="text-sm">"Token" returned is just the user ID integer — not a real authentication token.<br>Question: Should this use JWT or session-based auth?<br>Recommendation: Implement proper token-based authentication.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-021"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-003-user-login-inferred" class="text-blue-600 hover:underline">US-003: User Login (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-021</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:40</code></div><div class="text-sm">Plain text password comparison — no hashing.<br>Question: Is this intentional for a prototype?<br>Recommendation: Compare hashed passwords using constant-time comparison.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-022"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-003-user-login-inferred" class="text-blue-600 hover:underline">US-003: User Login (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-022</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:36-43</code></div><div class="text-sm">No rate limiting on login attempts — brute-force possible.<br>Question: Should there be brute-force protection?<br>Recommendation: Add rate limiting or account lockout.</div></div>
+<hr>
+<h2 id="us-004-list-my-todos-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-004-list-my-todos-inferred" class="hover:text-blue-600">US-004: List My Todos (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">GET /todos</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:48-54</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> see all my todo items</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-004"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-004-list-my-todos-inferred" class="text-blue-600 hover:underline">US-004: List My Todos (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-004</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:48-54</code></div><div class="text-sm">Why does the user need to list their todos?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-004-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns list of todos for the given X-User-Id</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:52-53</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-004-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Requires X-User-Id header; returns 401 if missing</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:50-51</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-004-03</td><td class="border border-gray-300 px-3 py-2 text-sm">X-User-Id is not validated against database — any integer accepted</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:52</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-023"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-004-list-my-todos-inferred" class="text-blue-600 hover:underline">US-004: List My Todos (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-023</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:52</code></div><div class="text-sm">X-User-Id header not validated — any integer accepted, even non-existent users.<br>Question: Should the user ID be verified as a real user?<br>Recommendation: Validate user exists before querying.</div></div>
+<hr>
+<h2 id="us-005-create-a-todo-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-005-create-a-todo-inferred" class="hover:text-blue-600">US-005: Create a Todo (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">POST /todos</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:57-72</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> create a new todo item with title, description, priority, and due date</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-005"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-005-create-a-todo-inferred" class="text-blue-600 hover:underline">US-005: Create a Todo (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-005</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:57-72</code></div><div class="text-sm">Why does the user need to create todos?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Todo is created with title, optional description, priority, and due_date</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:63-69</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns 201 with the created todo object</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:72</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-03</td><td class="border border-gray-300 px-3 py-2 text-sm">Requires X-User-Id header</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:59-60</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-04</td><td class="border border-gray-300 px-3 py-2 text-sm">Priority defaults to "medium" but accepts any string</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:67</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-05</td><td class="border border-gray-300 px-3 py-2 text-sm">due_date parsed via datetime.fromisoformat(); invalid format causes 500</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:68</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-005-06</td><td class="border border-gray-300 px-3 py-2 text-sm">Missing title causes 500 error (unhandled KeyError)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:63</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-024"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-005-create-a-todo-inferred" class="text-blue-600 hover:underline">US-005: Create a Todo (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-024</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:67</code></div><div class="text-sm">No validation on priority values — any string accepted, not limited to low/medium/high.<br>Question: Should priority be constrained to an enum?<br>Recommendation: Validate against allowed values.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-025"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-005-create-a-todo-inferred" class="text-blue-600 hover:underline">US-005: Create a Todo (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-025</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:68</code></div><div class="text-sm">Invalid due_date format causes unhandled ValueError (500 error).<br>Question: Should invalid dates return 400 with a helpful message?<br>Recommendation: Add try/except and return proper error response.</div></div>
+<hr>
+<h2 id="us-006-update-a-todo-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-006-update-a-todo-inferred" class="hover:text-blue-600">US-006: Update a Todo (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">PUT /todos/<todo_id></code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:75-93</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> update my todo (title, description, completion, priority)</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-006"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-006-update-a-todo-inferred" class="text-blue-600 hover:underline">US-006: Update a Todo (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-006</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:75-93</code></div><div class="text-sm">Why does the user need to update todos? Track progress?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Updates todo fields that are present in request body</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:83-91</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Setting completed=true also sets completed_at timestamp</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:88-89</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-03</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns 200 with updated todo object</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:93</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-04</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns 404 if todo not found</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:81-82</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-05</td><td class="border border-gray-300 px-3 py-2 text-sm">Requires X-User-Id header</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:77-78</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-006-06</td><td class="border border-gray-300 px-3 py-2 text-sm">NO ownership check — any user can update any todo (IDOR)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:82</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-026"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-006-update-a-todo-inferred" class="text-blue-600 hover:underline">US-006: Update a Todo (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-026</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:82</code></div><div class="text-sm">IDOR vulnerability: No check that todo.user_id matches requesting user.<br>Any authenticated user can update any other user's todo by knowing the ID.<br>Question: Is this a security bug?<br>Recommendation: Add ownership check — if todo.user_id != int(user_id): return 403.</div></div>
+<hr>
+<h2 id="us-007-delete-a-todo-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-007-delete-a-todo-inferred" class="hover:text-blue-600">US-007: Delete a Todo (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">DELETE /todos/<todo_id></code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:96-105</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> delete a todo item</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-007"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-007-delete-a-todo-inferred" class="text-blue-600 hover:underline">US-007: Delete a Todo (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-007</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:96-105</code></div><div class="text-sm">Why does the user need to delete todos?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-007-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Deletes the todo and returns 204 (no content)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:103-105</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-007-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns 404 if todo not found</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:101-102</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-007-03</td><td class="border border-gray-300 px-3 py-2 text-sm">Requires X-User-Id header</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:98-99</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-007-04</td><td class="border border-gray-300 px-3 py-2 text-sm">NO ownership check — any user can delete any todo (IDOR)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:103</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-007-05</td><td class="border border-gray-300 px-3 py-2 text-sm">Hard delete — no soft-delete or undo mechanism</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:103</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-027"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-007-delete-a-todo-inferred" class="text-blue-600 hover:underline">US-007: Delete a Todo (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-027</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:103</code></div><div class="text-sm">IDOR vulnerability: No check that todo.user_id matches requesting user.<br>Any authenticated user can delete any other user's todo by knowing the ID.<br>Question: Is this a security bug?<br>Recommendation: Add ownership check before deletion.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-028"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-007-delete-a-todo-inferred" class="text-blue-600 hover:underline">US-007: Delete a Todo (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-028</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:103-104</code></div><div class="text-sm">Hard delete with no audit trail — deleted todos are unrecoverable.<br>Question: Should deleted todos be recoverable?<br>Recommendation: Consider soft-delete with a deleted_at column.</div></div>
+<hr>
+<h2 id="us-008-search-todos-inferred" class="mt-10 mb-4 text-xl font-bold"><a href="#us-008-search-todos-inferred" class="hover:text-blue-600">US-008: Search Todos (inferred)</a></h2>
+<p class="my-2"><strong>Confidence</strong>: High <strong>Source</strong>: <code class="bg-gray-200 px-1 rounded text-sm">GET /todos/search</code> -- <code class="bg-gray-200 px-1 rounded text-sm">app.py:108-115</code></p>
+<p class="my-2"><strong>As a</strong> registered user <strong>I want to</strong> search my todos by title</p>
+<p class="my-2"><strong>So that</strong></p>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-008"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-008-search-todos-inferred" class="text-blue-600 hover:underline">US-008: Search Todos (inferred)</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-008</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:108-115</code></div><div class="text-sm">Why does the user need to search todos?</div></div>
+<h3 id="acceptance-criteria-observed" class="mt-8 mb-3 text-lg font-bold"><a href="#acceptance-criteria-observed" class="hover:text-blue-600">Acceptance Criteria (observed)</a></h3>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Criterion</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Confidence</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-008-01</td><td class="border border-gray-300 px-3 py-2 text-sm">Searches todos by title using LIKE '%q%' pattern</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:113</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-008-02</td><td class="border border-gray-300 px-3 py-2 text-sm">Filters by user_id from X-User-Id header</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:113</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-008-03</td><td class="border border-gray-300 px-3 py-2 text-sm">Returns raw SQL rows (different format than other endpoints)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:114</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-008-04</td><td class="border border-gray-300 px-3 py-2 text-sm">Requires X-User-Id header</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:110-111</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">AC-008-05</td><td class="border border-gray-300 px-3 py-2 text-sm">Query parameter q defaults to empty string if not provided</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py:112</code></td><td class="border border-gray-300 px-3 py-2 text-sm">High</td></tr></tbody></table>
+<h3 id="anomalies-detected" class="mt-8 mb-3 text-lg font-bold"><a href="#anomalies-detected" class="hover:text-blue-600">Anomalies Detected</a></h3>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-029"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-008-search-todos-inferred" class="text-blue-600 hover:underline">US-008: Search Todos (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-029</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:113</code></div><div class="text-sm">CRITICAL: SQL injection vulnerability. User input (both user_id and q) interpolated<br>directly into SQL query via f-string. An attacker can execute arbitrary SQL.<br>Question: Is this a critical security vulnerability that must be fixed immediately?<br>Recommendation: Use parameterized queries (db.text with :param syntax) immediately.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-030"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-008-search-todos-inferred" class="text-blue-600 hover:underline">US-008: Search Todos (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-030</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:108-115</code></div><div class="text-sm">Search returns raw SQL result dicts, not ORM-based to_dict() output — inconsistent<br>response shape compared to other todo endpoints.<br>Question: Should search use the same response format?<br>Recommendation: Use ORM query with to_dict() for consistency.</div></div>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-031"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#us-008-search-todos-inferred" class="text-blue-600 hover:underline">US-008: Search Todos (inferred)</a> <span class="text-gray-400">›</span> <a href="#anomalies-detected" class="text-blue-600 hover:underline">Anomalies Detected</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-031</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:117</code></div><div class="text-sm">Flask debug mode enabled in production entry point: <code class="bg-gray-200 px-1 rounded text-sm">app.run(debug=True)</code>.<br>Question: Is this intentional for development only?<br>Recommendation: Disable debug mode for production; use environment variable.</div></div></section>
+<section class="my-6"><h2 class="text-xl font-bold border-b pb-2 mb-4">inventory.yml</h2><pre class="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto text-sm my-3"><code># Behavioral Inventory
+# Project: Todo API
+# Extracted: 2026-02-28
+# Source: examples/todo/
+
+---
+
+# ============================================================
+# Endpoint 1: Health Check
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /health
+    source: app.py:15-16
+    handler_function: health
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: '{"status": "ok"}'
+    errors: []
+
+  side_effects: []
+
+  observations:
+    - "Minimal health check; no DB connectivity verification"
+
+# ============================================================
+# Endpoint 2: Create User
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /users
+    source: app.py:21-33
+    handler_function: create_user
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: name
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No length or format validation"
+      - name: email
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No email format validation, no uniqueness check"
+      - name: password
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No complexity requirements"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"id": int, "name": str, "email": str}'
+    errors:
+      - status: 500
+        condition: "Missing required fields (unhandled KeyError)"
+
+  side_effects:
+    - "Creates User row with plain-text password"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-001 source=app.py:28]
+      Password stored as plain text — no hashing.
+      Question: Is this intentional for a prototype?
+      Recommendation: Hash passwords with bcrypt or argon2.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-002 source=app.py:23]
+      No duplicate email check — multiple accounts with same email allowed.
+      Question: Should emails be unique?
+      Recommendation: Add unique constraint on email column and check before insert.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-003 source=app.py:21-33]
+      No input validation — missing fields cause unhandled KeyError (500).
+      Question: Should missing fields return 400 with helpful message?
+      Recommendation: Validate required fields and return proper error responses.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-004 source=app.py:7]
+      Hardcoded SECRET_KEY in source code: "super-secret-key-123".
+      Question: Should this come from environment variables?
+      Recommendation: Move secret to environment variable or config file.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 3: Login
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /login
+    source: app.py:36-43
+    handler_function: login
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: email
+        type: str
+        validation: "None"
+        constraints: "None"
+      - name: password
+        type: str
+        validation: "Compared via plain text equality"
+        constraints: "None"
+
+  outputs:
+    success:
+      status: 200
+      body: '{"token": int}  # Actually returns user.id as "token"'
+    errors:
+      - status: 401
+        condition: "Email not found or password mismatch"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-005 source=app.py:42]
+      "Token" is just the user ID — not a real authentication token.
+      Question: Should this use JWT or session tokens?
+      Recommendation: Implement proper token-based auth.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-006 source=app.py:40]
+      Plain text password comparison — no hashing.
+      Question: Is this intentional for a prototype?
+      Recommendation: Compare hashed passwords.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-007 source=app.py:36-43]
+      No rate limiting on login attempts.
+      Question: Should there be brute-force protection?
+      Recommendation: Add rate limiting or progressive delays.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 4: List Todos
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /todos
+    source: app.py:48-54
+    handler_function: list_todos
+
+  authentication:
+    required: true
+    method: "X-User-Id header (user ID, no real auth verification)"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: "[{todo object}]"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-008 source=app.py:50]
+      X-User-Id header not validated against database — any integer accepted.
+      Question: Should the user ID be verified as a real user?
+      Recommendation: Validate user exists before querying todos.
+      [/ANOMALY]
+    - "No pagination — returns all todos for user"
+
+# ============================================================
+# Endpoint 5: Create Todo
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /todos
+    source: app.py:57-72
+    handler_function: create_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: title
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No length validation"
+      - name: description
+        type: str
+        validation: "Optional, defaults to empty string"
+        constraints: "None"
+      - name: priority
+        type: str
+        validation: "None — any string accepted"
+        constraints: "Defaults to 'medium' but no enum validation"
+      - name: due_date
+        type: str
+        validation: "Parsed via datetime.fromisoformat()"
+        constraints: "Optional; invalid format causes unhandled ValueError"
+
+  outputs:
+    success:
+      status: 201
+      body: "{todo object}"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 500
+        condition: "Missing title (KeyError) or invalid due_date (ValueError)"
+
+  side_effects:
+    - "Creates Todo row linked to user_id"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-009 source=app.py:67]
+      No validation on priority values — accepts any string, not just low/medium/high.
+      Question: Should priority be constrained to an enum?
+      Recommendation: Validate against allowed values.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-010 source=app.py:68]
+      Invalid due_date format causes unhandled ValueError (500 error).
+      Question: Should invalid dates return 400 with helpful message?
+      Recommendation: Wrap in try/except and return proper error.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 6: Update Todo
+# ============================================================
+
+- endpoint:
+    method: PUT
+    path: /todos/&lt;todo_id&gt;
+    source: app.py:75-93
+    handler_function: update_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params:
+      - name: todo_id
+        type: int
+        validation: "Flask URL converter"
+    query_params: []
+    body:
+      - name: title
+        type: str
+        validation: "Optional"
+        constraints: "None"
+      - name: description
+        type: str
+        validation: "Optional"
+        constraints: "None"
+      - name: completed
+        type: bool
+        validation: "Optional; sets completed_at timestamp when true"
+        constraints: "None"
+      - name: priority
+        type: str
+        validation: "Optional; no enum validation"
+        constraints: "None"
+
+  outputs:
+    success:
+      status: 200
+      body: "{updated todo object}"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 404
+        condition: "Todo not found"
+
+  side_effects:
+    - "Updates Todo row fields"
+    - "Sets completed_at timestamp when completed=true"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-011 source=app.py:82]
+      IDOR vulnerability: No check that todo.user_id matches requesting user.
+      Any authenticated user can update any other user's todo by ID.
+      Question: Is this a security bug?
+      Recommendation: Add ownership check: if todo.user_id != int(user_id): return 403.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 7: Delete Todo
+# ============================================================
+
+- endpoint:
+    method: DELETE
+    path: /todos/&lt;todo_id&gt;
+    source: app.py:96-105
+    handler_function: delete_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params:
+      - name: todo_id
+        type: int
+        validation: "Flask URL converter"
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 204
+      body: "empty"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 404
+        condition: "Todo not found"
+
+  side_effects:
+    - "Deletes Todo row from database (hard delete)"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-012 source=app.py:103]
+      IDOR vulnerability: No check that todo.user_id matches requesting user.
+      Any authenticated user can delete any other user's todo by ID.
+      Question: Is this a security bug?
+      Recommendation: Add ownership check before deletion.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-013 source=app.py:103-104]
+      Hard delete — no soft-delete or audit trail.
+      Question: Should deleted todos be recoverable?
+      Recommendation: Consider soft-delete with a deleted_at column.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 8: Search Todos
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /todos/search
+    source: app.py:108-115
+    handler_function: search_todos
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params: []
+    query_params:
+      - name: q
+        type: str
+        required: false
+        default: '""'
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: "[{todo dict from raw SQL}]"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-014 source=app.py:113]
+      SQL INJECTION: User input interpolated directly into SQL query via f-string.
+      Both user_id and q parameters are unsanitized.
+      Question: Is this a critical security vulnerability?
+      Recommendation: Use parameterized queries immediately.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-015 source=app.py:108-115]
+      Search returns raw SQL rows, not ORM objects — different response shape than other endpoints.
+      Question: Should search use the same to_dict() format?
+      Recommendation: Use ORM query for consistency.
+      [/ANOMALY]
+</code></pre></section>
+<section class="my-6"><h2 class="text-xl font-bold border-b pb-2 mb-4">source-mapping.md</h2><h1 id="source-mapping" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-mapping" class="hover:text-blue-600">Source Mapping</a></h1>
+<p class="my-2"><strong>Project</strong>: Todo API <strong>Extracted</strong>: 2026-02-28</p>
+<hr>
+<h2 id="table-1-scenario-to-source" class="mt-10 mb-4 text-xl font-bold"><a href="#table-1-scenario-to-source" class="hover:text-blue-600">Table 1: Scenario to Source</a></h2>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Scenario</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Source File</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Lines</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Function</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">Health endpoint returns OK</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">15-16</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">health</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Successfully create a new user</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">21-33</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_user</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Response excludes password</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">32</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_user</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Password stored as plain text</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">28</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_user</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Duplicate emails are allowed</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">23</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_user</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Missing fields cause server error</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">25-28</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_user</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Successful login returns user ID as token</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">36-43</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">login</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Wrong password returns 401</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">40-41</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">login</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Nonexistent email returns 401</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">40</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">login</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Token is actually the user ID</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">42</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">login</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">List todos for a user</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">48-54</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">list_todos</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Missing X-User-Id returns 401 (list)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">50-51</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">list_todos</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Create a todo with all fields</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">57-72</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Any string accepted as priority</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">67</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Invalid due_date causes server error</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">68</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">create_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Update todo title</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">75-93</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">update_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Mark todo as completed sets completed_at</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">88-89</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">update_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Update nonexistent todo returns 404</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">81-82</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">update_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Any user can update another user's todo (IDOR)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">82</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">update_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Delete a todo returns 204</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">96-105</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">delete_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Delete nonexistent todo returns 404</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">101-102</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">delete_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Any user can delete another user's todo (IDOR)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">103</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">delete_todo</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Search todos by title</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">108-115</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">search_todos</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Empty query returns all todos</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">112</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">search_todos</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Missing X-User-Id returns 401 (search)</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">110-111</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">search_todos</code></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Search query is vulnerable to SQL injection</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">113</td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">search_todos</code></td></tr></tbody></table>
+<hr>
+<h2 id="table-2-source-to-scenario-coverage" class="mt-10 mb-4 text-xl font-bold"><a href="#table-2-source-to-scenario-coverage" class="hover:text-blue-600">Table 2: Source to Scenario Coverage</a></h2>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">File</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Functions</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Scenarios</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Coverage</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">8 (<code class="bg-gray-200 px-1 rounded text-sm">health</code>, <code class="bg-gray-200 px-1 rounded text-sm">create_user</code>, <code class="bg-gray-200 px-1 rounded text-sm">login</code>, <code class="bg-gray-200 px-1 rounded text-sm">list_todos</code>, <code class="bg-gray-200 px-1 rounded text-sm">create_todo</code>, <code class="bg-gray-200 px-1 rounded text-sm">update_todo</code>, <code class="bg-gray-200 px-1 rounded text-sm">delete_todo</code>, <code class="bg-gray-200 px-1 rounded text-sm">search_todos</code>)</td><td class="border border-gray-300 px-3 py-2 text-sm">26</td><td class="border border-gray-300 px-3 py-2 text-sm">100%</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">models.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm">0 (declarative models + <code class="bg-gray-200 px-1 rounded text-sm">to_dict</code>)</td><td class="border border-gray-300 px-3 py-2 text-sm">0 (exercised implicitly)</td><td class="border border-gray-300 px-3 py-2 text-sm">N/A</td></tr></tbody></table>
+<p class="my-2"><strong>Overall</strong>: All 8 route handlers covered by at least one scenario.</p>
+<hr>
+<h2 id="table-3-uncovered-code" class="mt-10 mb-4 text-xl font-bold"><a href="#table-3-uncovered-code" class="hover:text-blue-600">Table 3: Uncovered Code</a></h2>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">File</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Function</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Lines</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Reason</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">models.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">User</code> (class)</td><td class="border border-gray-300 px-3 py-2 text-sm">8-16</td><td class="border border-gray-300 px-3 py-2 text-sm">ORM model declaration. Covered implicitly through user creation/login.</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">models.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">Todo</code> (class)</td><td class="border border-gray-300 px-3 py-2 text-sm">19-33</td><td class="border border-gray-300 px-3 py-2 text-sm">ORM model declaration. Covered implicitly through todo CRUD.</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">models.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">Todo.to_dict</code></td><td class="border border-gray-300 px-3 py-2 text-sm">35-46</td><td class="border border-gray-300 px-3 py-2 text-sm">Serialization helper. Exercised by all todo endpoint tests.</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">app.py</code></td><td class="border border-gray-300 px-3 py-2 text-sm"><code class="bg-gray-200 px-1 rounded text-sm">db.create_all()</code></td><td class="border border-gray-300 px-3 py-2 text-sm">10-11</td><td class="border border-gray-300 px-3 py-2 text-sm">App initialization. Infrastructure.</td></tr></tbody></table>
+<p class="my-2">All uncovered items are infrastructure or declarative.</p></section>
+<details class="my-4 border rounded"><summary class="px-4 py-2 bg-gray-50 cursor-pointer font-semibold">features/characterization/health.feature</summary><div class="p-4"><h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<h1 id="characterization-tests-extracted-from-existing-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#characterization-tests-extracted-from-existing-behavior" class="hover:text-blue-600">CHARACTERIZATION TESTS - Extracted from existing behavior</a></h1>
+<h1 id="source-app-py" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-app-py" class="hover:text-blue-600">Source: app.py</a></h1>
+<h1 id="generated-2026-02-28t00-00-00z" class="mt-4 mb-2 text-sm font-semibold"><a href="#generated-2026-02-28t00-00-00z" class="hover:text-blue-600">Generated: 2026-02-28T00:00:00Z</a></h1>
+<h1 id="warning-these-scenarios-describe-current-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#warning-these-scenarios-describe-current-behavior" class="hover:text-blue-600">WARNING: These scenarios describe CURRENT behavior.</a></h1>
+<h1 id="bugs-may-be-encoded-as-expected-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#bugs-may-be-encoded-as-expected-behavior" class="hover:text-blue-600">Bugs may be encoded as expected behavior.</a></h1>
+<h1 id="review-carefully-before-promoting-to-intended" class="mt-4 mb-2 text-sm font-semibold"><a href="#review-carefully-before-promoting-to-intended" class="hover:text-blue-600">Review carefully before promoting to intended/.</a></h1>
+<h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<p class="my-2">Feature: Health Check   Operators can verify the API is running.</p>
+<p class="my-2">  @characterization @extracted @source:app.py:15-16 @criterion:AC-001-01 @confidence:high   Scenario: Health endpoint returns OK     When I send a GET request to "/health"     Then the response status should be 200     And the response body should contain "status" with value "ok"</p></div></details>
+<details class="my-4 border rounded"><summary class="px-4 py-2 bg-gray-50 cursor-pointer font-semibold">features/characterization/login.feature</summary><div class="p-4"><h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<h1 id="characterization-tests-extracted-from-existing-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#characterization-tests-extracted-from-existing-behavior" class="hover:text-blue-600">CHARACTERIZATION TESTS - Extracted from existing behavior</a></h1>
+<h1 id="source-app-py" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-app-py" class="hover:text-blue-600">Source: app.py</a></h1>
+<h1 id="generated-2026-02-28t00-00-00z" class="mt-4 mb-2 text-sm font-semibold"><a href="#generated-2026-02-28t00-00-00z" class="hover:text-blue-600">Generated: 2026-02-28T00:00:00Z</a></h1>
+<h1 id="warning-these-scenarios-describe-current-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#warning-these-scenarios-describe-current-behavior" class="hover:text-blue-600">WARNING: These scenarios describe CURRENT behavior.</a></h1>
+<h1 id="bugs-may-be-encoded-as-expected-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#bugs-may-be-encoded-as-expected-behavior" class="hover:text-blue-600">Bugs may be encoded as expected behavior.</a></h1>
+<h1 id="review-carefully-before-promoting-to-intended" class="mt-4 mb-2 text-sm font-semibold"><a href="#review-carefully-before-promoting-to-intended" class="hover:text-blue-600">Review carefully before promoting to intended/.</a></h1>
+<h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<p class="my-2">Feature: User Login   Registered users can log in.</p>
+<p class="my-2">  Background:     Given a user exists with name "Alice", email "alice@example.com", and password "pass123"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:36-43 @criterion:AC-003-01 @confidence:high   Scenario: Successful login returns user ID as token     When I send a POST request to "/login" with body:       """       {"email": "alice@example.com", "password": "pass123"}       """     Then the response status should be 200     And the response body should contain "token"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:40-41 @criterion:AC-003-02 @confidence:high   Scenario: Wrong password returns 401     When I send a POST request to "/login" with body:       """       {"email": "alice@example.com", "password": "wrong"}       """     Then the response status should be 401</p>
+<p class="my-2">  @characterization @extracted @source:app.py:40 @criterion:AC-003-02 @confidence:high   Scenario: Nonexistent email returns 401     When I send a POST request to "/login" with body:       """       {"email": "nobody@example.com", "password": "pass"}       """     Then the response status should be 401</p>
+<p class="my-2">  @characterization @extracted @source:app.py:42 @criterion:AC-003-03 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-020"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-020</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:42</code></div><div class="text-sm">  # "Token" is just the user ID integer — not a real authentication token.<br>  # Question: Should this use JWT or session-based auth?<br>  # Recommendation: Implement proper token-based authentication.<br>#</div></div>
+<p class="my-2">  Scenario: Token is actually the user ID     When I send a POST request to "/login" with body:       """       {"email": "alice@example.com", "password": "pass123"}       """     Then the response body "token" should equal the user's database ID</p></div></details>
+<details class="my-4 border rounded"><summary class="px-4 py-2 bg-gray-50 cursor-pointer font-semibold">features/characterization/search.feature</summary><div class="p-4"><h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<h1 id="characterization-tests-extracted-from-existing-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#characterization-tests-extracted-from-existing-behavior" class="hover:text-blue-600">CHARACTERIZATION TESTS - Extracted from existing behavior</a></h1>
+<h1 id="source-app-py" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-app-py" class="hover:text-blue-600">Source: app.py</a></h1>
+<h1 id="generated-2026-02-28t00-00-00z" class="mt-4 mb-2 text-sm font-semibold"><a href="#generated-2026-02-28t00-00-00z" class="hover:text-blue-600">Generated: 2026-02-28T00:00:00Z</a></h1>
+<h1 id="warning-these-scenarios-describe-current-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#warning-these-scenarios-describe-current-behavior" class="hover:text-blue-600">WARNING: These scenarios describe CURRENT behavior.</a></h1>
+<h1 id="bugs-may-be-encoded-as-expected-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#bugs-may-be-encoded-as-expected-behavior" class="hover:text-blue-600">Bugs may be encoded as expected behavior.</a></h1>
+<h1 id="review-carefully-before-promoting-to-intended" class="mt-4 mb-2 text-sm font-semibold"><a href="#review-carefully-before-promoting-to-intended" class="hover:text-blue-600">Review carefully before promoting to intended/.</a></h1>
+<h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<p class="my-2">Feature: Todo Search   Users can search their todos by title.</p>
+<p class="my-2">  Background:     Given a user exists with id 1, name "Alice"     And todos exist: "Buy groceries", "Buy birthday gift", "Clean house" for user 1</p>
+<p class="my-2">  @characterization @extracted @source:app.py:108-115 @criterion:AC-008-01 @confidence:high   Scenario: Search todos by title     When I send a GET request to "/todos/search?q=Buy" with headers:       | X-User-Id | 1 |     Then the response status should be 200     And the response should contain 2 results</p>
+<p class="my-2">  @characterization @extracted @source:app.py:112 @criterion:AC-008-05 @confidence:high   Scenario: Empty query returns all todos     When I send a GET request to "/todos/search" with headers:       | X-User-Id | 1 |     Then the response status should be 200     And the response should contain 3 results</p>
+<p class="my-2">  @characterization @extracted @source:app.py:110-111 @criterion:AC-008-04 @confidence:high   Scenario: Missing X-User-Id returns 401     When I send a GET request to "/todos/search?q=test"     Then the response status should be 401</p>
+<p class="my-2">  @characterization @extracted @source:app.py:113 @criterion:AC-008-01 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-029"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-029</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:113</code></div><div class="text-sm">  # CRITICAL: SQL injection vulnerability. User input interpolated directly<br>  # into SQL query via f-string. An attacker can execute arbitrary SQL.<br>  # Question: Is this a critical security vulnerability?<br>  # Recommendation: Use parameterized queries immediately.<br>#</div></div>
+<p class="my-2">  Scenario: Search query is vulnerable to SQL injection     When I send a GET request to "/todos/search?q=' OR 1=1 --" with headers:       | X-User-Id | 1 |     Then the response may return all todos regardless of user</p></div></details>
+<details class="my-4 border rounded"><summary class="px-4 py-2 bg-gray-50 cursor-pointer font-semibold">features/characterization/todo-crud.feature</summary><div class="p-4"><h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<h1 id="characterization-tests-extracted-from-existing-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#characterization-tests-extracted-from-existing-behavior" class="hover:text-blue-600">CHARACTERIZATION TESTS - Extracted from existing behavior</a></h1>
+<h1 id="source-app-py" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-app-py" class="hover:text-blue-600">Source: app.py</a></h1>
+<h1 id="generated-2026-02-28t00-00-00z" class="mt-4 mb-2 text-sm font-semibold"><a href="#generated-2026-02-28t00-00-00z" class="hover:text-blue-600">Generated: 2026-02-28T00:00:00Z</a></h1>
+<h1 id="warning-these-scenarios-describe-current-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#warning-these-scenarios-describe-current-behavior" class="hover:text-blue-600">WARNING: These scenarios describe CURRENT behavior.</a></h1>
+<h1 id="bugs-may-be-encoded-as-expected-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#bugs-may-be-encoded-as-expected-behavior" class="hover:text-blue-600">Bugs may be encoded as expected behavior.</a></h1>
+<h1 id="review-carefully-before-promoting-to-intended" class="mt-4 mb-2 text-sm font-semibold"><a href="#review-carefully-before-promoting-to-intended" class="hover:text-blue-600">Review carefully before promoting to intended/.</a></h1>
+<h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<p class="my-2">Feature: Todo CRUD Operations   Users can create, read, update, and delete todos.</p>
+<p class="my-2">  Background:     Given a user exists with id 1, name "Alice", email "alice@example.com"     And a todo exists with id 1, title "Buy groceries", user_id 1</p>
+<p class="my-2">  # --- List ---</p>
+<p class="my-2">  @characterization @extracted @source:app.py:48-54 @criterion:AC-004-01 @confidence:high   Scenario: List todos for a user     When I send a GET request to "/todos" with headers:       | X-User-Id | 1 |     Then the response status should be 200     And the response body should be a list containing "Buy groceries"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:50-51 @criterion:AC-004-02 @confidence:high   Scenario: Missing X-User-Id returns 401     When I send a GET request to "/todos" without headers     Then the response status should be 401</p>
+<p class="my-2">  # --- Create ---</p>
+<p class="my-2">  @characterization @extracted @source:app.py:57-72 @criterion:AC-005-01 @confidence:high   Scenario: Create a todo with all fields     When I send a POST request to "/todos" with headers:       | X-User-Id | 1 |     And body:       """       {"title": "New task", "description": "Details", "priority": "high", "due_date": "2026-03-15T00:00:00"}       """     Then the response status should be 201     And the response body should contain "title" with value "New task"     And the response body should contain "priority" with value "high"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:67 @criterion:AC-005-04 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-024"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-024</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:67</code></div><div class="text-sm">  # No validation on priority values — any string accepted.<br>  # Question: Should priority be constrained to an enum?<br>  # Recommendation: Validate against allowed values (low/medium/high).<br>#</div></div>
+<p class="my-2">  Scenario: Any string accepted as priority     When I send a POST request to "/todos" with headers:       | X-User-Id | 1 |     And body:       """       {"title": "Task", "priority": "super-ultra-critical"}       """     Then the response status should be 201     And the response body should contain "priority" with value "super-ultra-critical"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:68 @criterion:AC-005-05 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-025"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-025</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:68</code></div><div class="text-sm">  # Invalid due_date format causes unhandled ValueError (500 error).<br>  # Question: Should invalid dates return 400?<br>  # Recommendation: Add try/except with proper error response.<br>#</div></div>
+<p class="my-2">  Scenario: Invalid due_date causes server error     When I send a POST request to "/todos" with headers:       | X-User-Id | 1 |     And body:       """       {"title": "Task", "due_date": "not-a-date"}       """     Then the response status should be 500</p>
+<p class="my-2">  # --- Update ---</p>
+<p class="my-2">  @characterization @extracted @source:app.py:75-93 @criterion:AC-006-01 @confidence:high   Scenario: Update todo title     When I send a PUT request to "/todos/1" with headers:       | X-User-Id | 1 |     And body:       """       {"title": "Updated title"}       """     Then the response status should be 200     And the response body should contain "title" with value "Updated title"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:88-89 @criterion:AC-006-02 @confidence:high   Scenario: Mark todo as completed sets completed_at     When I send a PUT request to "/todos/1" with headers:       | X-User-Id | 1 |     And body:       """       {"completed": true}       """     Then the response status should be 200     And the response body should contain "completed" with value true     And the response body "completed_at" should not be null</p>
+<p class="my-2">  @characterization @extracted @source:app.py:81-82 @criterion:AC-006-04 @confidence:high   Scenario: Update nonexistent todo returns 404     When I send a PUT request to "/todos/9999" with headers:       | X-User-Id | 1 |     And body:       """       {"title": "Nope"}       """     Then the response status should be 404</p>
+<p class="my-2">  @characterization @extracted @source:app.py:82 @criterion:AC-006-06 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-026"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-026</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:82</code></div><div class="text-sm">  # IDOR vulnerability: No ownership check. Any user can update any todo.<br>  # Question: Is this a security bug?<br>  # Recommendation: Add check that todo.user_id matches requesting user.<br>#</div></div>
+<p class="my-2">  Scenario: Any user can update another user's todo (IDOR)     Given a user exists with id 2, name "Bob"     When I send a PUT request to "/todos/1" with headers:       | X-User-Id | 2 |     And body:       """       {"title": "Hacked by Bob"}       """     Then the response status should be 200</p>
+<p class="my-2">  # --- Delete ---</p>
+<p class="my-2">  @characterization @extracted @source:app.py:96-105 @criterion:AC-007-01 @confidence:high   Scenario: Delete a todo returns 204     When I send a DELETE request to "/todos/1" with headers:       | X-User-Id | 1 |     Then the response status should be 204</p>
+<p class="my-2">  @characterization @extracted @source:app.py:101-102 @criterion:AC-007-02 @confidence:high   Scenario: Delete nonexistent todo returns 404     When I send a DELETE request to "/todos/9999" with headers:       | X-User-Id | 1 |     Then the response status should be 404</p>
+<p class="my-2">  @characterization @extracted @source:app.py:103 @criterion:AC-007-04 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-027"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-027</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:103</code></div><div class="text-sm">  # IDOR vulnerability: No ownership check. Any user can delete any todo.<br>  # Question: Is this a security bug?<br>  # Recommendation: Add ownership check before deletion.<br>#</div></div>
+<p class="my-2">  Scenario: Any user can delete another user's todo (IDOR)     Given a user exists with id 2, name "Bob"     When I send a DELETE request to "/todos/1" with headers:       | X-User-Id | 2 |     Then the response status should be 204</p></div></details>
+<details class="my-4 border rounded"><summary class="px-4 py-2 bg-gray-50 cursor-pointer font-semibold">features/characterization/user-registration.feature</summary><div class="p-4"><h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<h1 id="characterization-tests-extracted-from-existing-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#characterization-tests-extracted-from-existing-behavior" class="hover:text-blue-600">CHARACTERIZATION TESTS - Extracted from existing behavior</a></h1>
+<h1 id="source-app-py" class="mt-4 mb-2 text-sm font-semibold"><a href="#source-app-py" class="hover:text-blue-600">Source: app.py</a></h1>
+<h1 id="generated-2026-02-28t00-00-00z" class="mt-4 mb-2 text-sm font-semibold"><a href="#generated-2026-02-28t00-00-00z" class="hover:text-blue-600">Generated: 2026-02-28T00:00:00Z</a></h1>
+<h1 id="warning-these-scenarios-describe-current-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#warning-these-scenarios-describe-current-behavior" class="hover:text-blue-600">WARNING: These scenarios describe CURRENT behavior.</a></h1>
+<h1 id="bugs-may-be-encoded-as-expected-behavior" class="mt-4 mb-2 text-sm font-semibold"><a href="#bugs-may-be-encoded-as-expected-behavior" class="hover:text-blue-600">Bugs may be encoded as expected behavior.</a></h1>
+<h1 id="review-carefully-before-promoting-to-intended" class="mt-4 mb-2 text-sm font-semibold"><a href="#review-carefully-before-promoting-to-intended" class="hover:text-blue-600">Review carefully before promoting to intended/.</a></h1>
+<h1 id="" class="mt-4 mb-2 text-sm font-semibold"><a href="#" class="hover:text-blue-600">============================================================</a></h1>
+<p class="my-2">Feature: User Registration   New users can create accounts.</p>
+<p class="my-2">  @characterization @extracted @source:app.py:21-33 @criterion:AC-002-01 @confidence:high   Scenario: Successfully create a new user     When I send a POST request to "/users" with body:       """       {"name": "Alice", "email": "alice@example.com", "password": "pass123"}       """     Then the response status should be 201     And the response body should contain "name" with value "Alice"     And the response body should contain "email" with value "alice@example.com"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:32 @criterion:AC-002-02 @confidence:high   Scenario: Response excludes password     When I send a POST request to "/users" with body:       """       {"name": "Bob", "email": "bob@example.com", "password": "secret"}       """     Then the response status should be 201     And the response body should not contain field "password"</p>
+<p class="my-2">  @characterization @extracted @source:app.py:28 @criterion:AC-002-03 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-016"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-016</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:28</code></div><div class="text-sm">  # Password stored as plain text — no hashing applied.<br>  # Question: Is this intentional for a prototype?<br>  # Recommendation: Hash passwords with bcrypt or argon2.<br>#</div></div>
+<p class="my-2">  Scenario: Password stored as plain text     When I send a POST request to "/users" with body:       """       {"name": "Test", "email": "test@example.com", "password": "mypass"}       """     Then the response status should be 201     And the database should contain the password "mypass" as plain text</p>
+<p class="my-2">  @characterization @extracted @source:app.py:23 @criterion:AC-002-04 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-017"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-017</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:23</code></div><div class="text-sm">  # No duplicate email check — multiple accounts with same email allowed.<br>  # Question: Should emails be unique?<br>  # Recommendation: Add unique constraint on email column.<br>#</div></div>
+<p class="my-2">  Scenario: Duplicate emails are allowed     Given a user exists with email "dup@example.com"     When I send a POST request to "/users" with body:       """       {"name": "Dup User", "email": "dup@example.com", "password": "pass"}       """     Then the response status should be 201</p>
+<p class="my-2">  @characterization @extracted @source:app.py:25-28 @criterion:AC-002-05 @confidence:high @anomaly @needs-review</p>
+<p class="my-2">#</p>
+<div class="tag-block bg-red-50 border-l-4 border-red-500 p-4 my-4 rounded-r" data-tag-type="ANOMALY" data-tag-id="ANO-018"><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x26A0;</span><span>Anomaly Detected</span><code class="text-xs bg-gray-200 px-1 rounded">ANO-018</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:25-28</code></div><div class="text-sm">  # Missing required fields cause unhandled KeyError (500 error).<br>  # Question: Should missing fields return 400?<br>  # Recommendation: Add input validation.<br>#</div></div>
+<p class="my-2">  Scenario: Missing fields cause server error     When I send a POST request to "/users" with body:       """       {"name": "Only Name"}       """     Then the response status should be 500</p></div></details>
+<section class="my-6"><h2 class="text-xl font-bold border-b pb-2 mb-4">checklists/extraction-review.md</h2><h1 id="extraction-review-checklist" class="mt-4 mb-2 text-sm font-semibold"><a href="#extraction-review-checklist" class="hover:text-blue-600">Extraction Review Checklist</a></h1>
+<p class="my-2"><strong>Project</strong>: Todo API (<code class="bg-gray-200 px-1 rounded text-sm">examples/todo/</code>) <strong>Extracted</strong>: 2026-02-28 <strong>Reviewer</strong>: _______________ <strong>Status</strong>: Pending Review</p>
+<h2 id="summary" class="mt-10 mb-4 text-xl font-bold"><a href="#summary" class="hover:text-blue-600">Summary</a></h2>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Metric</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Count</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">User Stories Inferred</td><td class="border border-gray-300 px-3 py-2 text-sm">8</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Acceptance Criteria</td><td class="border border-gray-300 px-3 py-2 text-sm">30</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Characterization Scenarios</td><td class="border border-gray-300 px-3 py-2 text-sm">26</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Anomalies Detected</td><td class="border border-gray-300 px-3 py-2 text-sm">16</td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">Uncovered Code Paths</td><td class="border border-gray-300 px-3 py-2 text-sm">4 (infrastructure/models only)</td></tr></tbody></table>
+<h2 id="user-story-review" class="mt-10 mb-4 text-xl font-bold"><a href="#user-story-review" class="hover:text-blue-600">User Story Review</a></h2>
+<p class="my-2">For each inferred user story, mark: - ✓ Correct -- accurately describes intended behavior - ✎ Revise -- needs modification (note changes needed) - ✗ Remove -- accidental/unwanted behavior - + Split -- should be multiple stories</p>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">ID</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">User Story</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Status</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Notes</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-001</td><td class="border border-gray-300 px-3 py-2 text-sm">Health Check</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-002</td><td class="border border-gray-300 px-3 py-2 text-sm">User Registration</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-003</td><td class="border border-gray-300 px-3 py-2 text-sm">User Login</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-004</td><td class="border border-gray-300 px-3 py-2 text-sm">List My Todos</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-005</td><td class="border border-gray-300 px-3 py-2 text-sm">Create a Todo</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-006</td><td class="border border-gray-300 px-3 py-2 text-sm">Update a Todo</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-007</td><td class="border border-gray-300 px-3 py-2 text-sm">Delete a Todo</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr><tr><td class="border border-gray-300 px-3 py-2 text-sm">US-008</td><td class="border border-gray-300 px-3 py-2 text-sm">Search Todos</td><td class="border border-gray-300 px-3 py-2 text-sm">[ ]</td><td class="border border-gray-300 px-3 py-2 text-sm"></td></tr></tbody></table>
+<h2 id="missing-context" class="mt-10 mb-4 text-xl font-bold"><a href="#missing-context" class="hover:text-blue-600">Missing Context</a></h2>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-009"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#missing-context" class="text-blue-600 hover:underline">Missing Context</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-009</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:1-117</code></div><div class="text-sm">Is this a prototype/demo or production-bound code?<br>Why it matters: Affects severity of all anomalies, especially security ones.</div></div>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-010"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#missing-context" class="text-blue-600 hover:underline">Missing Context</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-010</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:7</code></div><div class="text-sm">Where should the SECRET_KEY and DB configuration come from?<br>Why it matters: Hardcoded secrets are a security risk in any shared repository.</div></div>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-011"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#missing-context" class="text-blue-600 hover:underline">Missing Context</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-011</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>app.py:48-54</code></div><div class="text-sm">Should the API support pagination for todo lists?<br>Why it matters: Performance degrades with large numbers of todos.</div></div>
+<div class="tag-block bg-amber-50 border-l-4 border-amber-500 p-4 my-4 rounded-r" data-tag-type="HUMAN_INPUT" data-tag-id="HI-012"><div class="tag-context hidden text-xs text-gray-500 mb-2 pb-2 border-b border-gray-200"><a href="#missing-context" class="text-blue-600 hover:underline">Missing Context</a></div><div class="flex items-center gap-2 font-semibold text-sm mb-1"><span>&#x2753;</span><span>Human Input Required</span><code class="text-xs bg-gray-200 px-1 rounded">HI-012</code><code class=&quot;text-xs bg-gray-200 px-1 rounded&quot;>models.py:19-33</code></div><div class="text-sm">Should todos support additional fields (tags, categories, attachments)?<br>Why it matters: Affects data model and API design decisions.</div></div>
+<h2 id="dead-code-review" class="mt-10 mb-4 text-xl font-bold"><a href="#dead-code-review" class="hover:text-blue-600">Dead Code Review</a></h2>
+<table class="min-w-full border-collapse my-4"><thead><tr><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Function</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Location</th><th class="border border-gray-300 px-3 py-2 bg-gray-100 text-left text-sm font-semibold">Action</th></tr></thead><tbody><tr><td class="border border-gray-300 px-3 py-2 text-sm">No dead code detected</td><td class="border border-gray-300 px-3 py-2 text-sm">N/A</td><td class="border border-gray-300 px-3 py-2 text-sm">N/A</td></tr></tbody></table></section>
+  </main>
+
+  <!-- Filter JS -->
+  <script>
+    (function() {
+      const buttons = document.querySelectorAll('.filter-btn');
+      const summaryGrid = document.querySelector('.grid');
+      let activeFilter = 'all';
+
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          activeFilter = btn.dataset.filter;
+          buttons.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-gray-400'));
+          btn.classList.add('ring-2', 'ring-offset-1', 'ring-gray-400');
+          applyFilter();
+        });
+      });
+
+      function applyFilter() {
+        const sections = document.querySelectorAll('main > section, main > details');
+
+        if (activeFilter === 'all') {
+          summaryGrid.style.display = '';
+          // Reset all hidden elements inside main
+          document.querySelectorAll('main [style*="display: none"], main [style*="display:none"]').forEach(el => {
+            el.style.display = '';
+          });
+          sections.forEach(s => s.style.display = '');
+          // Hide context breadcrumbs in "all" mode
+          document.querySelectorAll('.tag-context').forEach(el => el.classList.add('hidden'));
+          return;
+        }
+
+        // Show context breadcrumbs on matching tag blocks
+        document.querySelectorAll('.tag-block').forEach(block => {
+          const ctx = block.querySelector('.tag-context');
+          if (!ctx) return;
+          if (block.dataset.tagType === activeFilter) {
+            ctx.classList.remove('hidden');
+          } else {
+            ctx.classList.add('hidden');
+          }
+        });
+
+        // Hide summary cards when filtering
+        summaryGrid.style.display = 'none';
+
+        sections.forEach(section => {
+          const isDetails = section.tagName === 'DETAILS';
+          // The container holding content elements
+          const container = isDetails
+            ? section.querySelector('.p-4') || section
+            : section;
+          const children = Array.from(container.children);
+
+          // Check if this section has any matching tag blocks
+          const hasMatch = children.some(el =>
+            el.classList.contains('tag-block') && el.dataset.tagType === activeFilter
+          );
+
+          if (!hasMatch) {
+            section.style.display = 'none';
+            return;
+          }
+
+          section.style.display = '';
+          if (isDetails) section.open = true;
+
+          // Build a set of indices to show: matching tags + one preceding sibling for context
+          const showIndices = new Set();
+          children.forEach((el, i) => {
+            if (el.classList.contains('tag-block') && el.dataset.tagType === activeFilter) {
+              showIndices.add(i);
+              if (i > 0) showIndices.add(i - 1);  // preceding context
+            }
+          });
+
+          // Always show the first child if it's a heading (section title)
+          if (children.length > 0 && /^H[1-6]$/.test(children[0].tagName)) {
+            showIndices.add(0);
+          }
+
+          children.forEach((el, i) => {
+            el.style.display = showIndices.has(i) ? '' : 'none';
+          });
+
+          // For sections, ensure the h2 title is visible
+          const h2 = section.querySelector(':scope > h2');
+          if (h2) h2.style.display = '';
+        });
+      }
+
+      // Context breadcrumb links: switch to All, then scroll to anchor
+      document.addEventListener('click', (e) => {
+        const link = e.target.closest('.tag-context a');
+        if (!link) return;
+        e.preventDefault();
+        const hash = link.getAttribute('href');
+        // Switch to All
+        activeFilter = 'all';
+        buttons.forEach(b => b.classList.remove('ring-2', 'ring-offset-1', 'ring-gray-400'));
+        buttons[0].classList.add('ring-2', 'ring-offset-1', 'ring-gray-400');
+        applyFilter();
+        // Scroll to target
+        const target = document.querySelector(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Brief highlight
+          target.style.backgroundColor = '#fef3c7';
+          setTimeout(() => target.style.backgroundColor = '', 2000);
+        }
+      });
+
+      buttons[0].classList.add('ring-2', 'ring-offset-1', 'ring-gray-400');
+    })();
+  </script>
+</body>
+</html>

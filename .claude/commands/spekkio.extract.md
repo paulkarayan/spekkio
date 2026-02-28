@@ -36,7 +36,7 @@ If `.specify/memory/constitution.md` exists, read it for project conventions.
 
 ## Execution Flow
 
-Execute the following 6 phases in order. After each phase, print a progress summary to stdout before continuing.
+Execute the following 7 phases (Phase 0 through Phase 6) in order. After each phase, print a progress summary to stdout before continuing.
 
 **Output directory naming:** `specs/{NNN}-{app-name}/` where:
 - `{NNN}` is a zero-padded 3-digit counter based on the number of existing directories in `specs/` (first run = `001`, second = `002`, etc.). Count all existing directories, not just extraction ones.
@@ -120,8 +120,15 @@ side_effects:
   - description of database writes, events published, external calls, etc.
 
 observations:
-  - notable things: missing validations, inconsistencies, potential bugs
+  - |
+    [ANOMALY id=ANO-NNN source=path/to/file.py:line]
+    Description of the anomaly.
+    Question: What the reviewer should consider.
+    Recommendation: Suggested action.
+    [/ANOMALY]
 ```
+
+Use `[ANOMALY]` tags inside YAML literal block scalars (`|`) for all observations that describe missing validations, inconsistencies, or potential bugs. Plain non-anomalous observations can remain as simple strings.
 
 **For non-HTTP interfaces** (CLI commands, event handlers, cron jobs), adapt the format to capture: trigger, inputs, outputs, side effects, observations.
 
@@ -145,7 +152,9 @@ Group related behaviors from the inventory into user stories.
 
 **As a** {inferred actor}
 **I want to** {inferred action}
-**So that** [NEEDS HUMAN INPUT: why?]
+**So that** [HUMAN_INPUT id=HI-NNN source={primary endpoint source}]
+Why does the user need this capability?
+[/HUMAN_INPUT]
 
 ### Acceptance Criteria (observed)
 
@@ -155,16 +164,28 @@ Group related behaviors from the inventory into user stories.
 
 ### Anomalies Detected
 
-| Observation | Question | Recommendation |
-|-------------|----------|----------------|
-| {what's unusual} | {question for reviewer} | {suggested action} |
+[ANOMALY id=ANO-NNN source={file:line}]
+{what's unusual}
+Question: {question for reviewer}
+Recommendation: {suggested action}
+[/ANOMALY]
+```
+
+For acceptance criteria with Low or Unknown confidence, add a `[HUMAN_INPUT]` tag asking for verification:
+
+```markdown
+| AC-NNN-NN | {criterion} | {file:line} | Low |
+
+[HUMAN_INPUT id=HI-NNN source={file:line}]
+Low confidence: {why this is uncertain}. Please verify this criterion.
+[/HUMAN_INPUT]
 ```
 
 **Confidence scoring rules:**
 - **High**: Behavior is explicit in code with clear paths (e.g., validation checks, explicit error responses)
 - **Medium**: Behavior inferred from code patterns but not explicitly tested
 - **Low**: Behavior guessed from naming, comments, or conventions
-- **Unknown**: Cannot determine — mark with `[NEEDS REVIEW]`
+- **Unknown**: Cannot determine — add a `[HUMAN_INPUT]` tag requesting clarification
 
 **Output:** Write `specs/{NNN}-{app-name}/spec.md`
 
@@ -196,7 +217,17 @@ For each acceptance criterion from Phase 2, generate a Gherkin scenario that des
 # ============================================================
 ```
 
-- For anomalies, add inline comments explaining what's unusual and what question the reviewer should answer
+- For anomalies, use `[ANOMALY]` comment blocks (each line prefixed `# `) immediately before the scenario:
+
+```gherkin
+  # [ANOMALY id=ANO-NNN source={file:line}]
+  # {Description of the anomaly.}
+  # Question: {What the reviewer should consider.}
+  # Recommendation: {Suggested action.}
+  # [/ANOMALY]
+  Scenario: {anomalous behavior description}
+```
+
 - Group scenarios into `.feature` files by functional area (one feature file per logical grouping)
 
 **Output:** Write feature files to `specs/{NNN}-{app-name}/features/characterization/`
@@ -229,6 +260,14 @@ Create bidirectional traceability between scenarios and source code.
 | File | Function | Lines | Reason |
 |------|----------|-------|--------|
 | {file} | {function name} | {lines} | {why no scenario: dead code, internal helper, etc.} |
+
+For uncovered code that is NOT pure infrastructure (i.e., has behavioral logic), add a `[HUMAN_INPUT]` tag:
+
+```markdown
+[HUMAN_INPUT id=HI-NNN source={file:lines}]
+Function `{name}` has no corresponding scenario. Is this dead code, an internal helper, or missing coverage?
+[/HUMAN_INPUT]
+```
 
 **Output:** Write `specs/{NNN}-{app-name}/source-mapping.md`
 
@@ -272,21 +311,14 @@ For each inferred user story, mark:
 |----|------------|--------|-------|
 | {ID} | {title} | [ ] | |
 
-## Anomaly Resolution
-
-For each anomaly, provide:
-- The observed behavior
-- The source location
-- The question to answer
-- Decision options (checkboxes)
-
 ## Missing Context
 
-Questions that could not be answered from code alone:
+For each question that cannot be answered from code alone, emit a `[HUMAN_INPUT]` tag:
 
-| Question | Why It Matters | Answer |
-|----------|----------------|--------|
-| {question} | {impact} | |
+[HUMAN_INPUT id=HI-NNN source={relevant file if any}]
+{Question that could not be answered from code alone.}
+Why it matters: {impact on spec accuracy or system design}
+[/HUMAN_INPUT]
 
 ## Dead Code Review
 
@@ -294,19 +326,33 @@ Questions that could not be answered from code alone:
 |----------|----------|--------|
 | {name} | {file:line} | [ ] Keep  [ ] Remove |
 
-## Sign-off
-
-- [ ] All user stories reviewed
-- [ ] All anomalies resolved
-- [ ] Missing context documented or answered
-- [ ] Dead code decisions made
-
-Reviewer: _______________ Date: _______________
 ```
 
 **Output:** Write `specs/{NNN}-{app-name}/checklists/extraction-review.md`
 
 **Stdout:** Print summary of review items.
+
+---
+
+### Phase 6: Tag Manifest & Triage
+
+After all phases complete, print a tag manifest summarizing counts and ID ranges:
+
+```
+Tag manifest:
+  HUMAN_INPUT: HI-001..HI-{N} ({N} items)
+  ANOMALY:     ANO-001..ANO-{N} ({N} items)
+  Total:       {N} items requiring human review
+```
+
+Then instruct the user to run the triage script:
+
+```
+Run: python tools/triage.py specs/{NNN}-{app-name}/
+This will generate triage.md and report.html for interactive review.
+```
+
+**Stdout:** Print the tag manifest above.
 
 ---
 
@@ -320,6 +366,8 @@ specs/{NNN}-{app-name}/
 ├── inventory.yml                         # Phase 1: Raw behavioral inventory
 ├── spec.md                               # Phase 2: Inferred specification
 ├── source-mapping.md                     # Phase 4: Code ↔ scenario traceability
+├── triage.md                             # Generated by tools/triage.py
+├── report.html                           # Generated by tools/triage.py
 ├── features/
 │   ├── characterization/                 # Phase 3: Current behavior scenarios
 │   │   ├── {feature-area-1}.feature
@@ -340,7 +388,70 @@ specs/{NNN}-{app-name}/
 - **DO NOT** "fix" observed behavior in scenarios — describe it as-is
 - **DO NOT** invent acceptance criteria not evidenced by code
 - **DO NOT** skip anomalies — surface every one for human review
-- **DO NOT** make assumptions about intent — mark unknowns as `[NEEDS HUMAN INPUT]`
+- **DO NOT** make assumptions about intent — mark unknowns with `[HUMAN_INPUT]` tags (see Tag Format Reference)
+
+## Tag Format Reference
+
+All actionable items use standardized inline tags with explicit open/close delimiters and metadata. Two tag types exist:
+
+### HUMAN_INPUT
+
+For missing information, low confidence, uncovered code, and unanswered questions:
+
+```
+[HUMAN_INPUT id=HI-001 source=routes/accounts.py:12]
+What format should account numbers follow?
+[/HUMAN_INPUT]
+```
+
+### ANOMALY
+
+For suspicious or risky behavior detected in the code:
+
+```
+[ANOMALY id=ANO-001 source=routes/accounts.py:33]
+PIN stored as plain text in database.
+Question: Is this intentional for a demo, or a security bug?
+Recommendation: Hash PINs with bcrypt or similar.
+[/ANOMALY]
+```
+
+### ID Rules
+
+- IDs are globally unique across ALL files in the extraction
+- HUMAN_INPUT IDs: `HI-001`, `HI-002`, ... `HI-NNN` (sequential)
+- ANOMALY IDs: `ANO-001`, `ANO-002`, ... `ANO-NNN` (sequential)
+- Maintain a running counter as you work through phases — do NOT restart numbering per file
+- The `source` attribute references the **original source code** (e.g., `routes/accounts.py:33`), NOT the spec file
+
+### Placement by File Type
+
+- **Markdown (.md)**: Inline in text
+- **YAML (.yml)**: Inside literal block scalars (`|`)
+- **Gherkin (.feature)**: As comment blocks, each line prefixed with `# `
+
+Example in YAML:
+```yaml
+observations:
+  - |
+    [ANOMALY id=ANO-003 source=routes/transactions.py:45]
+    No withdrawal limit per transaction or per day.
+    Question: Should there be a maximum withdrawal amount?
+    Recommendation: Add configurable withdrawal limits.
+    [/ANOMALY]
+```
+
+Example in Gherkin:
+```gherkin
+  # [ANOMALY id=ANO-003 source=routes/transactions.py:45]
+  # No withdrawal limit per transaction or per day.
+  # Question: Should there be a maximum withdrawal amount?
+  # Recommendation: Add configurable withdrawal limits.
+  # [/ANOMALY]
+  Scenario: Large withdrawal has no limit
+```
+
+---
 
 ## Post-Extraction Workflow
 
@@ -348,10 +459,12 @@ After extraction is complete, print these next steps:
 
 ```
 Next steps:
-1. Review specs/{NNN}-{app-name}/checklists/extraction-review.md
-2. Resolve all anomalies and confirm user stories
-3. Move approved scenarios from characterization/ to intended/
-4. Modify scenarios that encode bugs (fix expected behavior)
-5. Add scenarios for missing functionality
-6. Continue with normal spec-driven development workflow
+1. Run: python tools/triage.py specs/{NNN}-{app-name}/
+2. Open specs/{NNN}-{app-name}/report.html in a browser for interactive review
+3. Work through triage.md — resolve all HUMAN_INPUT and ANOMALY items
+4. Review specs/{NNN}-{app-name}/checklists/extraction-review.md
+5. Move approved scenarios from characterization/ to intended/
+6. Modify scenarios that encode bugs (fix expected behavior)
+7. Add scenarios for missing functionality
+8. Continue with normal spec-driven development workflow
 ```

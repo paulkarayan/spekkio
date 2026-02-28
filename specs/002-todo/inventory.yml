@@ -1,0 +1,420 @@
+# Behavioral Inventory
+# Project: Todo API
+# Extracted: 2026-02-28
+# Source: examples/todo/
+
+---
+
+# ============================================================
+# Endpoint 1: Health Check
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /health
+    source: app.py:15-16
+    handler_function: health
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: '{"status": "ok"}'
+    errors: []
+
+  side_effects: []
+
+  observations:
+    - "Minimal health check; no DB connectivity verification"
+
+# ============================================================
+# Endpoint 2: Create User
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /users
+    source: app.py:21-33
+    handler_function: create_user
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: name
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No length or format validation"
+      - name: email
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No email format validation, no uniqueness check"
+      - name: password
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No complexity requirements"
+
+  outputs:
+    success:
+      status: 201
+      body: '{"id": int, "name": str, "email": str}'
+    errors:
+      - status: 500
+        condition: "Missing required fields (unhandled KeyError)"
+
+  side_effects:
+    - "Creates User row with plain-text password"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-001 source=app.py:28]
+      Password stored as plain text — no hashing.
+      Question: Is this intentional for a prototype?
+      Recommendation: Hash passwords with bcrypt or argon2.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-002 source=app.py:23]
+      No duplicate email check — multiple accounts with same email allowed.
+      Question: Should emails be unique?
+      Recommendation: Add unique constraint on email column and check before insert.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-003 source=app.py:21-33]
+      No input validation — missing fields cause unhandled KeyError (500).
+      Question: Should missing fields return 400 with helpful message?
+      Recommendation: Validate required fields and return proper error responses.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-004 source=app.py:7]
+      Hardcoded SECRET_KEY in source code: "super-secret-key-123".
+      Question: Should this come from environment variables?
+      Recommendation: Move secret to environment variable or config file.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 3: Login
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /login
+    source: app.py:36-43
+    handler_function: login
+
+  authentication:
+    required: false
+    method: none
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: email
+        type: str
+        validation: "None"
+        constraints: "None"
+      - name: password
+        type: str
+        validation: "Compared via plain text equality"
+        constraints: "None"
+
+  outputs:
+    success:
+      status: 200
+      body: '{"token": int}  # Actually returns user.id as "token"'
+    errors:
+      - status: 401
+        condition: "Email not found or password mismatch"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-005 source=app.py:42]
+      "Token" is just the user ID — not a real authentication token.
+      Question: Should this use JWT or session tokens?
+      Recommendation: Implement proper token-based auth.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-006 source=app.py:40]
+      Plain text password comparison — no hashing.
+      Question: Is this intentional for a prototype?
+      Recommendation: Compare hashed passwords.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-007 source=app.py:36-43]
+      No rate limiting on login attempts.
+      Question: Should there be brute-force protection?
+      Recommendation: Add rate limiting or progressive delays.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 4: List Todos
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /todos
+    source: app.py:48-54
+    handler_function: list_todos
+
+  authentication:
+    required: true
+    method: "X-User-Id header (user ID, no real auth verification)"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: "[{todo object}]"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-008 source=app.py:50]
+      X-User-Id header not validated against database — any integer accepted.
+      Question: Should the user ID be verified as a real user?
+      Recommendation: Validate user exists before querying todos.
+      [/ANOMALY]
+    - "No pagination — returns all todos for user"
+
+# ============================================================
+# Endpoint 5: Create Todo
+# ============================================================
+
+- endpoint:
+    method: POST
+    path: /todos
+    source: app.py:57-72
+    handler_function: create_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params: []
+    query_params: []
+    body:
+      - name: title
+        type: str
+        validation: "None — KeyError if missing"
+        constraints: "No length validation"
+      - name: description
+        type: str
+        validation: "Optional, defaults to empty string"
+        constraints: "None"
+      - name: priority
+        type: str
+        validation: "None — any string accepted"
+        constraints: "Defaults to 'medium' but no enum validation"
+      - name: due_date
+        type: str
+        validation: "Parsed via datetime.fromisoformat()"
+        constraints: "Optional; invalid format causes unhandled ValueError"
+
+  outputs:
+    success:
+      status: 201
+      body: "{todo object}"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 500
+        condition: "Missing title (KeyError) or invalid due_date (ValueError)"
+
+  side_effects:
+    - "Creates Todo row linked to user_id"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-009 source=app.py:67]
+      No validation on priority values — accepts any string, not just low/medium/high.
+      Question: Should priority be constrained to an enum?
+      Recommendation: Validate against allowed values.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-010 source=app.py:68]
+      Invalid due_date format causes unhandled ValueError (500 error).
+      Question: Should invalid dates return 400 with helpful message?
+      Recommendation: Wrap in try/except and return proper error.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 6: Update Todo
+# ============================================================
+
+- endpoint:
+    method: PUT
+    path: /todos/<todo_id>
+    source: app.py:75-93
+    handler_function: update_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params:
+      - name: todo_id
+        type: int
+        validation: "Flask URL converter"
+    query_params: []
+    body:
+      - name: title
+        type: str
+        validation: "Optional"
+        constraints: "None"
+      - name: description
+        type: str
+        validation: "Optional"
+        constraints: "None"
+      - name: completed
+        type: bool
+        validation: "Optional; sets completed_at timestamp when true"
+        constraints: "None"
+      - name: priority
+        type: str
+        validation: "Optional; no enum validation"
+        constraints: "None"
+
+  outputs:
+    success:
+      status: 200
+      body: "{updated todo object}"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 404
+        condition: "Todo not found"
+
+  side_effects:
+    - "Updates Todo row fields"
+    - "Sets completed_at timestamp when completed=true"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-011 source=app.py:82]
+      IDOR vulnerability: No check that todo.user_id matches requesting user.
+      Any authenticated user can update any other user's todo by ID.
+      Question: Is this a security bug?
+      Recommendation: Add ownership check: if todo.user_id != int(user_id): return 403.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 7: Delete Todo
+# ============================================================
+
+- endpoint:
+    method: DELETE
+    path: /todos/<todo_id>
+    source: app.py:96-105
+    handler_function: delete_todo
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params:
+      - name: todo_id
+        type: int
+        validation: "Flask URL converter"
+    query_params: []
+    body: []
+
+  outputs:
+    success:
+      status: 204
+      body: "empty"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+      - status: 404
+        condition: "Todo not found"
+
+  side_effects:
+    - "Deletes Todo row from database (hard delete)"
+
+  observations:
+    - |
+      [ANOMALY id=ANO-012 source=app.py:103]
+      IDOR vulnerability: No check that todo.user_id matches requesting user.
+      Any authenticated user can delete any other user's todo by ID.
+      Question: Is this a security bug?
+      Recommendation: Add ownership check before deletion.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-013 source=app.py:103-104]
+      Hard delete — no soft-delete or audit trail.
+      Question: Should deleted todos be recoverable?
+      Recommendation: Consider soft-delete with a deleted_at column.
+      [/ANOMALY]
+
+# ============================================================
+# Endpoint 8: Search Todos
+# ============================================================
+
+- endpoint:
+    method: GET
+    path: /todos/search
+    source: app.py:108-115
+    handler_function: search_todos
+
+  authentication:
+    required: true
+    method: "X-User-Id header"
+
+  inputs:
+    path_params: []
+    query_params:
+      - name: q
+        type: str
+        required: false
+        default: '""'
+    body: []
+
+  outputs:
+    success:
+      status: 200
+      body: "[{todo dict from raw SQL}]"
+    errors:
+      - status: 401
+        condition: "Missing X-User-Id header"
+
+  side_effects: []
+
+  observations:
+    - |
+      [ANOMALY id=ANO-014 source=app.py:113]
+      SQL INJECTION: User input interpolated directly into SQL query via f-string.
+      Both user_id and q parameters are unsanitized.
+      Question: Is this a critical security vulnerability?
+      Recommendation: Use parameterized queries immediately.
+      [/ANOMALY]
+    - |
+      [ANOMALY id=ANO-015 source=app.py:108-115]
+      Search returns raw SQL rows, not ORM objects — different response shape than other endpoints.
+      Question: Should search use the same to_dict() format?
+      Recommendation: Use ORM query for consistency.
+      [/ANOMALY]
