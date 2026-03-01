@@ -81,6 +81,7 @@ The `examples/atm/` directory contains a small FastAPI ATM app with intentional 
 
 ![Report Overview](assets/report-overview.png)
 
+### Detailed views
 ![Human Input Filter](assets/human-input.png)
 
 ![Anomalies Filter](assets/anomalies.png)
