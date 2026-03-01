@@ -76,3 +76,11 @@ The `examples/atm/` directory contains a small FastAPI ATM app with intentional 
 ```
 /spekkio.extract examples/atm
 ```
+
+## report screenshots
+
+![Report Overview](assets/report-overview.png)
+
+![Human Input Filter](assets/human-input.png)
+
+![Anomalies Filter](assets/anomalies.png)
